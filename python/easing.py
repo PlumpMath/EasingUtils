@@ -12,11 +12,11 @@ class SinEase():
 
 	@staticmethod
 	def ease_in(curr_time, start_val, end_val, duration):
-		pass
+		return -(end_val - start_val) * math.cos(curr_time/duration * (math.pi/2.0)) + (end_val - start_val) + start_val;
 
 	@staticmethod
 	def ease_out(curr_time, start_val, end_val, duration):
-		pass
+		 return (end_val - start_val) * math.sin(curr_time/duration * (math.pi/2.0)) + start_val;
 
 	@staticmethod
 	def ease_in_out(curr_time, start_val, end_val, duration):

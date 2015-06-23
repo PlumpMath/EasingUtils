@@ -6,7 +6,8 @@ from easing import *
 
 class MyApp(ShowBase):
 
-	id2Ease = {'lin': LinearEase}
+	id2Ease = {'lin': LinearEase,
+			   'sinIn': SinEase }
 
 	def __init__(self):
 		print 'creo'
@@ -20,7 +21,7 @@ class MyApp(ShowBase):
 								  mayChange=1)
 		self.curr_time = 0.0
 		self.end_time = 1.0
-		self.curr_ease = 'lin'
+		self.curr_ease = 'sinIn'
 		self.accept('space-up', self.__change_ease)
 		self.accept('enter-up', self.start_ease)
 
@@ -30,7 +31,7 @@ class MyApp(ShowBase):
 	def ease_task(self, task):
 		if self.curr_time < self.end_time:
 			dt = globalClock.getDt()
-			val = self.id2Ease[self.curr_ease].ease_in_out(self.curr_time, 1.0, 0.0, self.end_time)
+			val = self.id2Ease[self.curr_ease].ease_out(self.curr_time, 1.0, 0.0, self.end_time)
 			print val
 			self.curr_time += dt
 			self.textObject.setPos(val, val)
