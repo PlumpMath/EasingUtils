@@ -146,3 +146,18 @@ class ElasticEase():
 	@staticmethod
 	def ease_in_out(curr_time, start_val, end_val, duration):
 		pass
+
+
+class BackEase():
+
+	@staticmethod
+	def ease_in(curr_time, start_val, end_val, duration):
+		pass
+
+	@staticmethod
+	def ease_out(curr_time, start_val, end_val, duration):
+		pass
+
+	@staticmethod
+	def ease_in_out(curr_time, start_val, end_val, duration):
+		pass
