@@ -133,15 +133,22 @@ class CircularEase():
 
 	@staticmethod
 	def ease_in(curr_time, start_val, end_val, duration):
-		pass
+		curr_time /= duration
+		return -(end_val - start_val) * (math.sqrt(1 - curr_time*curr_time) - 1) + start_val
 
 	@staticmethod
 	def ease_out(curr_time, start_val, end_val, duration):
-		pass
+		curr_time /= duration
+		curr_time -= 1.0;
+		return (end_val - start_val) * math.sqrt(1 - curr_time*curr_time) + start_val
 
 	@staticmethod
 	def ease_in_out(curr_time, start_val, end_val, duration):
-		pass
+		curr_time /= duration*.5
+		if (curr_time < 1):
+			return -(end_val - start_val)*.5* (math.sqrt(1 - curr_time*curr_time) - 1.0) + start_val
+		curr_time -= 2.0
+		return (end_val - start_val)*.5 * (math.sqrt(1 - curr_time*curr_time) + 1.0) + start_val
 
 
 class ElasticEase():
