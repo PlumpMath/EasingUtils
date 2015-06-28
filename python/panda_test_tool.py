@@ -4,7 +4,7 @@ from direct.gui.DirectGui import *
 from panda3d.core import *
 from easing import *
 
-easeClass = ['lin', 'sin', 'quad', 'cub', 'quar', 'quin', 'exp', 'circ', 'elas']
+easeClass = ['lin', 'sin', 'quad', 'cub', 'quar', 'quin', 'exp', 'circ', 'elas', 'back']
 easeType = ['easeI', 'easeO', 'easeIO']
 
 class MyApp(ShowBase):
@@ -36,6 +36,9 @@ class MyApp(ShowBase):
 			   ('elas', 'easeI'): ElasticEase.ease_in,
 			   ('elas', 'easeO'): ElasticEase.ease_out,
 			   ('elas', 'easeIO'): ElasticEase.ease_in_out,
+			   ('back', 'easeI'): BackEase.ease_in,
+			   ('back', 'easeO'): BackEase.ease_out,
+			   ('back', 'easeIO'): BackEase.ease_in_out,
 			   }
 
 	def __init__(self):
