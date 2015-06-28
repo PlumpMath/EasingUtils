@@ -114,15 +114,19 @@ class ExpEase():
 
 	@staticmethod
 	def ease_in(curr_time, start_val, end_val, duration):
-		pass
+		return (end_val - start_val) * math.pow( 2, 10.0 * (curr_time/duration - 1.0) ) + start_val
 
 	@staticmethod
 	def ease_out(curr_time, start_val, end_val, duration):
-		pass
+		return (end_val - start_val) * ( -math.pow( 2, -10.0 * curr_time/duration ) + 1.0 ) + start_val
 
 	@staticmethod
 	def ease_in_out(curr_time, start_val, end_val, duration):
-		pass
+		curr_time /= duration*.5
+		if (curr_time < 1.0):
+			return (end_val - start_val)/2 *  math.pow( 2, 10 * (curr_time - 1.0) ) + start_val
+		curr_time -= 1.0
+		return (end_val - start_val)*.5 * ( -math.pow( 2, -10.0 * curr_time) + 2 ) + start_val
 
 
 class CircularEase():
