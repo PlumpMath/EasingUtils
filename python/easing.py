@@ -169,13 +169,20 @@ class ElasticEase():
 class BackEase():
 
 	@staticmethod
-	def ease_in(curr_time, start_val, end_val, duration):
-		pass
+	def ease_in(curr_time, start_val, end_val, duration, back_dist=1.7):
+		postFix = curr_time/duration
+		return (end_val - start_val)*postFix*curr_time*((back_dist+1)*curr_time - back_dist) + start_val
 
 	@staticmethod
-	def ease_out(curr_time, start_val, end_val, duration):
-		pass
+	def ease_out(curr_time, start_val, end_val, duration, back_dist=1.7):
+		curr_time=curr_time/duration-1
+		return (end_val - start_val)*(curr_time*curr_time*((back_dist+1)*curr_time + back_dist) + 1) + start_val;
 
 	@staticmethod
-	def ease_in_out(curr_time, start_val, end_val, duration):
-		pass
+	def ease_in_out(curr_time, start_val, end_val, duration, back_dist=1.7):
+		back_dist*=1.525
+		curr_time/=duration*.5
+		if curr_time < 1:
+			return (end_val - start_val)*.5*(curr_time*curr_time*((back_dist+1)*curr_time - back_dist)) + start_val
+		curr_time -= 2.0
+		return (end_val - start_val)*.5*(curr_time*curr_time*((back_dist+1.0)*curr_time + back_dist) + 2.0) + start_val
