@@ -6,6 +6,7 @@ from easing import *
 
 easeClass = ['lin', 'sin', 'quad', 'cub', 'quar', 'quin', 'exp', 'circ', 'elas', 'back']
 easeType = ['easeI', 'easeO', 'easeIO']
+easeParam = ['pos', 'scale']
 
 class MyApp(ShowBase):
 
@@ -44,6 +45,7 @@ class MyApp(ShowBase):
 	def __init__(self):
 		ShowBase.__init__(self)
 		self.curr_ease = ['lin', 'easeI']
+		self.curr_param = 'pos'
 		self.class_lab = OnscreenText(text=self.curr_ease[0],
 								  pos=(-1.2, .9), 
 								  scale=0.07,
@@ -58,7 +60,15 @@ class MyApp(ShowBase):
 								  align=TextNode.ALeft,
 								  mayChange=1)
 
+		self.param_lab = OnscreenText(text=self.curr_param,
+								  pos=(-.8, .9), 
+								  scale=0.07,
+								  fg=(1, 0.8, 0.8, 1),
+								  align=TextNode.ALeft,
+								  mayChange=1)
+
 		self.positions = [(-.7, 0, 0), (.7, 0, 0)]
+		self.scales = [1, 2]
 
 		self.myFrame = DirectFrame(frameColor=(0, 0, 1, 1),
                       		  	   frameSize=(-.3, .3, -.3, .3),
@@ -70,14 +80,19 @@ class MyApp(ShowBase):
 		self.accept('a-up', self.__change_class, extraArgs=[-1])
 		self.accept('w-up', self.__change_type, extraArgs=[1])
 		self.accept('s-up', self.__change_type, extraArgs=[-1])
+		self.accept('e-up', self.__change_param, extraArgs=[1])
+		self.accept('d-up', self.__change_param, extraArgs=[-1])
 
 		self.accept('space-up', self.start_ease)
 
 	def start_ease(self):
 		self.ignore('space-up')
-		taskMgr.add(self.ease_task, 'ease_task')
+		if self.curr_param == 'pos':
+			taskMgr.add(self.ease_pos_task, 'ease_task')
+		elif self.curr_param == 'scale':
+			taskMgr.add(self.ease_scale_task, 'ease_task')
 
-	def ease_task(self, task):
+	def ease_pos_task(self, task):
 		if self.curr_time < self.end_time:
 			dt = globalClock.getDt()
 			val = self.ids2Ease[(self.curr_ease[0],
@@ -95,6 +110,25 @@ class MyApp(ShowBase):
 		self.accept('space-up', self.start_ease)
 		return task.done
 
+	def ease_scale_task(self, task):
+		if self.curr_time < self.end_time:
+			dt = globalClock.getDt()
+			val = self.ids2Ease[(self.curr_ease[0],
+								 self.curr_ease[1])](self.curr_time,
+													 self.scales[0],
+													 self.scales[1],
+													 self.end_time)
+			self.curr_time += dt
+			self.myFrame.setScale(val)
+			return task.cont
+		self.curr_time = 0.0
+		self.end_time = 1.0
+		self.myFrame.setScale(self.scales[1])
+		self.scales = self.scales[::-1]
+		self.accept('space-up', self.start_ease)
+		return task.done
+
+
 	def __change_class(self, incr):
 		self.curr_ease[0] = easeClass[(easeClass.index(self.curr_ease[0]) + incr) % len(easeClass)]
 		self.class_lab.setText(self.curr_ease[0]);
@@ -102,6 +136,10 @@ class MyApp(ShowBase):
 	def __change_type(self, incr):
 		self.curr_ease[1] = easeType[(easeType.index(self.curr_ease[1]) + incr) % len(easeType)]
 		self.type_lab.setText(self.curr_ease[1]);
+
+	def __change_param(self, incr):
+		self.curr_param = easeParam[(easeParam.index(self.curr_param) + incr) % len(easeParam)]
+		self.param_lab.setText(self.curr_param);
 
 
 app = MyApp()
