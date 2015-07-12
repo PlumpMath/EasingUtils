@@ -3,6 +3,7 @@ from direct.gui.OnscreenText import OnscreenText
 from direct.gui.DirectGui import *
 from panda3d.core import *
 from easing import *
+import sys
 
 easeClass = ['lin', 'sin', 'quad', 'cub', 'quar', 'quin', 'exp', 'circ', 'elas', 'back']
 easeType = ['easeI', 'easeO', 'easeIO']
@@ -44,7 +45,7 @@ class MyApp(ShowBase):
 
 	def __init__(self):
 		ShowBase.__init__(self)
-		self.curr_ease = ['lin', 'easeI']
+		self.curr_ease = ['elas', 'easeO']
 		self.curr_param = 'pos'
 		self.class_lab = OnscreenText(text=self.curr_ease[0],
 								  pos=(-1.2, .9), 
@@ -84,6 +85,7 @@ class MyApp(ShowBase):
 		self.accept('d-up', self.__change_param, extraArgs=[-1])
 
 		self.accept('space-up', self.start_ease)
+		self.accept('escape', sys.exit, [0])
 
 	def start_ease(self):
 		self.ignore('space-up')
