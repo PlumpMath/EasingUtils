@@ -1,7 +1,30 @@
 import math
 
+"""Easing Utilities
+
+This module contains all interpolation classes divided by function of
+interpolation.
+Each class represents a different way or MODE to interpolate
+between two values.
+Every MODE has three different TYPE of interpolation (except for the
+LinearEase) with the same method signature.
+The TYPEs are ease-in, ease-out and ease-in-out.
+
+Paramters:
+    curr_time: the current time of the interpolation
+    start_val: start value
+    end_val: end value
+    duration: duration in seconds of the animation
+
+Usage:
+    In order to use it you have to have a current time variabile that
+    you have to increment every step and then pass it to the selected function.
+
+"""
+
 
 class LinearEase():
+    """Linear interpolation mode. No actual ease."""
 
     @staticmethod
     def ease_in_out(curr_time, start_val, end_val, duration):
@@ -9,6 +32,7 @@ class LinearEase():
 
 
 class SinEase():
+    """Sinusoidal interpolation mode. Preety slow."""
 
     @staticmethod
     def ease_in(curr_time, start_val, end_val, duration):
@@ -29,6 +53,7 @@ class SinEase():
 
 
 class QuadEase():
+    """Quartic interpolation mode. Very used, standard speed."""
 
     @staticmethod
     def ease_in(curr_time, start_val, end_val, duration):
@@ -53,6 +78,7 @@ class QuadEase():
 
 
 class CubicEase():
+    """Cubic interpolation mode. Standard speed but a little bumpy."""
 
     @staticmethod
     def ease_in(curr_time, start_val, end_val, duration):
@@ -78,6 +104,7 @@ class CubicEase():
 
 
 class QuarticEase():
+    """Quartic interpolation mode. Standard speed but a little bumpy."""
 
     @staticmethod
     def ease_in(curr_time, start_val, end_val, duration):
@@ -103,6 +130,7 @@ class QuarticEase():
 
 
 class QuinticEase():
+    """Quintic interpolation mode. Fast and bumpy."""
 
     @staticmethod
     def ease_in(curr_time, start_val, end_val, duration):
@@ -126,6 +154,7 @@ class QuinticEase():
 
 
 class ExpEase():
+    """Quintic interpolation mode. Very fast and very bumpy."""
 
     @staticmethod
     def ease_in(curr_time, start_val, end_val, duration):
@@ -150,6 +179,7 @@ class ExpEase():
 
 
 class CircularEase():
+    """Quintic interpolation mode. Very fast and maybe to much bumpy."""
 
     @staticmethod
     def ease_in(curr_time, start_val, end_val, duration):
@@ -176,9 +206,11 @@ class CircularEase():
 
 
 class ElasticEase():
-
+    """Elastic interpolation mode.
+    The methods have arguments for the spring's elastic costant and the speed.
+    """
     @staticmethod
-    def ease_in(curr_time, start_val, end_val, duration, k=.3):
+    def ease_in(curr_time, start_val, end_val, duration, k=.3, speed=4):
         if curr_time == 0:
             return start_val
         curr_time /= duration
@@ -188,24 +220,24 @@ class ElasticEase():
         change = end_val - start_val
         s = p/4.0
         curr_time -= 1
-        postFix = change * math.pow(2, 10 * curr_time)
+        postFix = change * math.pow(speed, 10 * curr_time)
         return -(postFix * math.sin(
             (curr_time * duration - s) * (2 * math.pi)/p)) + start_val
 
     @staticmethod
-    def ease_out(curr_time, start_val, end_val, duration, k=.3, b=2):
+    def ease_out(curr_time, start_val, end_val, duration, k=.3, speed=4):
         change = end_val-start_val
         curr_time /= duration
         if curr_time == 1:
             return end_val
         p = duration * k
         s = p/4.0
-        return change * math.pow(b, -10.0 * curr_time)\
+        return change * math.pow(speed, -10.0 * curr_time)\
             * math.sin((curr_time * duration - s) * (2.0 * math.pi)/p)\
             + change + start_val
 
     @staticmethod
-    def ease_in_out(curr_time, start_val, end_val, duration, k=.3):
+    def ease_in_out(curr_time, start_val, end_val, duration, k=.3, speed=4):
         if curr_time == 0:
             return start_val
         curr_time /= duration/2.0
@@ -221,12 +253,15 @@ class ElasticEase():
                 (postFix * math.sin((curr_time*duration-s)*(2.0 * math.pi)/p))\
                 + start_val
         curr_time -= 1
-        postFix = change * math.pow(2, -10*(curr_time))
+        postFix = change * math.pow(speed, -10*(curr_time))
         return postFix * math.sin((curr_time*duration-s)*(2.0 * math.pi)/p)\
             * .5 + change + start_val
 
 
 class BackEase():
+    """Back interpolation mode.
+    The methods have an argument for controlling the back distance.
+    """
 
     @staticmethod
     def ease_in(curr_time, start_val, end_val, duration, back_dist=1.7):
