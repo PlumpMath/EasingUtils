@@ -1,11 +1,18 @@
 from easing import *
 
+"""This module contains the transition abtraction to ease n
+values based on the dimensione of the transition (1D, 2D, 3D).
+"""
+
 
 class Transition:
+    """This base class gives the the method to link a nodepath and a modifier
+    method like setPos to an interpolation class from the easing module.
+    """
 
     ease_params = ['position3D', 'position2D', 'scale1D', 'scale3D']
     ease_class = ['lin', 'sin', 'quad', 'cub', 'quar',
-                 'quin', 'exp', 'circ', 'elas', 'back']
+                  'quin', 'exp', 'circ', 'elas', 'back']
     easing_types = ['easeI', 'easeO', 'easeIO']
 
     __ids2Ease = {('lin', 'easeI'):   LinearEase.ease_in_out,
@@ -42,20 +49,31 @@ class Transition:
 
     def __init__(self, nodepath, t_param, ease_types, duration,
                  values, cb_done=None):
+        """Params:
+        - nodepath: the nodepath to manipulate
+        - t_param: position or scale
+        - ease_types: a list of tuples like ('elas', 'easeIO')
+        - duration: float duration
+        - values: values to ease back and forth
+        - cb_done: a callback method called when the transition has finished
+        """
         if t_param in Transition.ease_params:
             self._nodepath = nodepath
             self._values = values
             self._curr_time = 0
             self._duration = duration
             self._updating = False
-            self._easing_cbs = [self.__ids2Ease[(ease_type)] for ease_type in ease_types]
+            self._easing_cbs = [self.__ids2Ease[(ease_type)]
+                                for ease_type in ease_types]
             self._panda_func = self._meth_factory(nodepath, t_param)
             self._cb_done = cb_done
             self._values
         else:
-            raise Exception('Ease parameter not valid. Use one from: ' + str(Transition.ease_params))
+            raise Exception('Ease parameter not valid. Use one from: ' +
+                            str(Transition.ease_params))
 
     def update(self, task):
+        """Usage: Add this to the Panda's taskMgr to start the transition."""
         raise NotImplementedError()
 
     @property
@@ -71,35 +89,27 @@ class Transition:
             return None
         return t_obj
 
+    # Data validation
     def _right_transition(self, dimension, t_param):
-        if dimension == '1D'  and not dimension in t_param:
+        if dimension == '1D' and dimension not in t_param:
             raise Exception('Wrong transition type, use Transition1D.')
-        elif dimension == '2D' and not dimension in t_param:
+        elif dimension == '2D' and dimension not in t_param:
             raise Exception('Wrong transition type, use Transition2D.')
-        elif dimension == '3D'  and not dimension in t_param:
+        elif dimension == '3D' and dimension not in t_param:
             raise Exception('Wrong transition type, use Transition3D.')
 
     def _right_class(self, t_class):
         if t_class not in Transition.ease_class:
-            raise Exception('Ease class not valid. Use one from: ' + str(Transition.ease_class))
+            raise Exception('Ease class not valid. Use one from: ' +
+                            str(Transition.ease_class))
 
     def _right_type(self, t_type):
         if t_type not in Transition.easing_types:
-            raise Exception('Ease type not valid. Use one from: ' + str(Transition.easing_types))
+            raise Exception('Ease type not valid. Use one from: ' +
+                            str(Transition.easing_types))
 
     def _param_validation(self, dimension, values, ease_types, t_param):
         self._right_transition(dimension, t_param)
-
-        # if len(values[0]) != len(ease_types):
-        #     raise Exception('Value dimension different from easing types count.')
-        
-        # if dimension == '1D' and len(ease_types) != 1:
-        #     raise Exception('Transition1D needs only one easing type. You gave ' + str(len(ease_types)))
-        # elif dimension == '2D' and len(ease_types) != 2:
-        #     raise Exception('Transition2D needs two easing types. You gave ' + str(len(ease_types)))
-        # elif dimension == '3D' and len(ease_types) != 3:
-        #     raise Exception('Transition1D needs three easing types. You gave ' + str(len(ease_types)))
-
         for ease_type in ease_types:
             self._right_class(ease_type[0])
             self._right_type(ease_type[1])
@@ -112,7 +122,6 @@ class Transition1D(Transition):
         Transition.__init__(self, nodepath, t_param, ease_types,
                             duration, values, cb_done)
         self._param_validation('1D', values, ease_types, t_param)
-
 
     def update(self, task):
         if self._curr_time < self._duration:
@@ -148,7 +157,7 @@ class Transition2D(Transition):
         if self._curr_time < self._duration:
             self._updating = True
             vals = ()
-            for i in range(len(self._easing_cbs)):
+            for i in range(2):
                 val = self._easing_cbs[i](self._curr_time,
                                           self._values[0][i],
                                           self._values[1][i],

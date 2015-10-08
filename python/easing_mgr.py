@@ -1,18 +1,25 @@
 from transition import *
 
-"""EasingMgr
-This class rapresent the connection between the algorithminc
-calculations and the Panda3D engine.
-"""
-
 
 class EasingMgr:
+    """EasingMgr
+    This class rapresent the connection between the algorithminc
+    calculations and the Panda3D engine.
+    It has the list of all transition created.
+
+    Basic usage:
+        easingMgr = EasingMgr()
+        a_transition = easingMgr.add_transition(...)
+        easingMgr.start_transition(a_transition)
+    """
 
     def __init__(self):
         self.__transitions = []
 
     def add_transition(self, nodepath, t_param, ease_types,
-                            duration, values, cb_done):
+                       duration, values, cb_done):
+        """Creates and returns a transition. In order start it
+        you have to save it the transiiton"""
         transition = self.__transition_factory(t_param)(nodepath,
                                                         t_param,
                                                         ease_types,
@@ -30,7 +37,6 @@ class EasingMgr:
         elif '3D' in t_param:
             return Transition3D
 
-
     def start_transition(self, transition):
         if transition in self.__transitions:
             if not transition.is_updating:
@@ -38,4 +44,4 @@ class EasingMgr:
 
     def remove_transition(self, transition):
         if transition in self.__transitions:
-            self.__transitions.pop(transition)
+            self.__transitions.remove(transition)
