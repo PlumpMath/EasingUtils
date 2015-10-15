@@ -5,7 +5,7 @@ class EasingMgr:
     """EasingMgr
     This class rapresent the connection between the algorithminc
     calculations and the Panda3D engine.
-    It has the list of all transition created.
+    It has the list of all Transition created.
 
     Basic usage:
         easingMgr = EasingMgr()
@@ -18,8 +18,8 @@ class EasingMgr:
 
     def add_transition(self, nodepath, t_param, ease_types,
                        duration, values, cb_done):
-        """Creates and returns a transition. In order start it
-        you have to save it the transiiton"""
+        """Creates and returns a transition. In order to start it,
+        you have to save the transition externally."""
         transition = self.__transition_factory(t_param)(nodepath,
                                                         t_param,
                                                         ease_types,

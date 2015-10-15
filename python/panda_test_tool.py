@@ -41,6 +41,17 @@ class MyApp(ShowBase):
                                       align=TextNode.ALeft,
                                       mayChange=1)
 
+        self.controls = OnscreenText(text='Controls: \n' +
+          '   [p] Change paramter. \n' +
+          '   [q, a, z] Change ease mode (x, y, z).\n' + 
+          '   [w, s, x] Change ease type (x,y, z).\n' +
+          '   [spacebar] Start the transition.\n' +
+          '   [esc] Quit.',
+                                     pos=(-1.3, -.7),
+                                     scale=0.055,
+                                     fg=(0.8, 0.8, 0.8, 1),
+                                     align=TextNode.ALeft)
+
         for i in range(3):
             row = []
             row.append(OnscreenText(text=axis[i],
@@ -66,11 +77,11 @@ class MyApp(ShowBase):
 
         self._node = None
 
-        self._ease_values = {'position3D': [(-15.9, 5, -10.7),
-                                            (10.9, -2, 2.9)],
+        self._ease_values = {'position3D': [(-8.0, -3.0, 10.0),
+                                            (15.0, 3.0, -20.0)],
                              'position2D': [(-.7, -.3), (.7, .3)],
                              'scale1D': [[.08], [.20]],
-                             'scale3D': [(1, 1, 1), (4, 4, 4)]}
+                             'scale3D': [(1.0, 1.0, 1.0), (4.0, 4.0, 4.0)]}
 
         self.end_time = 1.0
 
@@ -93,15 +104,9 @@ class MyApp(ShowBase):
 
             self.accept('p-up', self.__change_param, extraArgs=[1])
             self.accept('space-up', self.start_ease)
+            self.accept('escape', sys.exit, [0])
         else:
-            self.ignore('space-up')
-            self.ignore('q-up')
-            self.ignore('a-up')
-            self.ignore('z-up')
-            self.ignore('w-up')
-            self.ignore('s-up')
-            self.ignore('x-up')
-            self.ignore('p-up')
+            self.ignoreAll()
 
     def start_ease(self):
         self.input_setup(False)
@@ -169,7 +174,7 @@ class MyApp(ShowBase):
                                                          self.check_finished)
 
     def load_text(self):
-        self._node = OnscreenText(text='Space bar',
+        self._node = OnscreenText(text='Fantastic text',
                                   pos=(self._ease_values['position2D'][0]),
                                   scale=self._ease_values['scale1D'][0][0])
 

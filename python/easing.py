@@ -207,7 +207,7 @@ class CircularEase():
 
 class ElasticEase():
     """Elastic interpolation mode.
-    The methods have arguments for the spring's elastic costant and the speed.
+    The methods have arguments for the spring's elastic costant and speed.
     """
     @staticmethod
     def ease_in(curr_time, start_val, end_val, duration, k=.3, speed=4):
