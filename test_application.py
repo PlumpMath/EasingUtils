@@ -1,11 +1,11 @@
 from direct.showbase.ShowBase import ShowBase
 from direct.gui.OnscreenText import OnscreenText
 from direct.gui.DirectGui import *
-from easing_mgr import EasingMgr
 from panda3d.core import *
-from easing import *
-import sys
 from direct.gui.OnscreenText import OnscreenText
+from easing_utils.easing_mgr import EasingMgr
+from easing_utils.easing import *
+import sys
 
 
 easeClass = ['lin', 'sin', 'quad', 'cub', 'quar',
