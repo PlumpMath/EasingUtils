@@ -43,7 +43,7 @@ class MyApp(ShowBase):
 
         self.controls = OnscreenText(text='Controls: \n' +
           '   [p] Change paramter. \n' +
-          '   [q, a, z] Change ease mode (x, y, z).\n' + 
+          '   [q, a, z] Change ease mode (x, y, z).\n' +
           '   [w, s, x] Change ease type (x,y, z).\n' +
           '   [spacebar] Start the transition.\n' +
           '   [esc] Quit.',
@@ -179,7 +179,7 @@ class MyApp(ShowBase):
                                   scale=self._ease_values['scale1D'][0][0])
 
     def load_sphere(self):
-        self._node = loader.loadModel("planet_sphere")
+        self._node = loader.loadModel("assets/planet_sphere")
         self._node.reparentTo(render)
         self._node.setScale(self._ease_values['scale3D'][0][0],
                             self._ease_values['scale3D'][0][1],
@@ -187,7 +187,7 @@ class MyApp(ShowBase):
         self._node.setPos(self._ease_values['position3D'][0][0],
                           self._ease_values['position3D'][0][1],
                           self._ease_values['position3D'][0][2])
-        self._node_tex = loader.loadTexture("earth.jpg")
+        self._node_tex = loader.loadTexture("assets/earth.jpg")
         self._node.setTexture(self._node_tex, 1)
 
     def release_nodes(self):
