@@ -23,3 +23,7 @@ easingMgr.start_transition(a_transition)
 
 ###Future improvements
 * Better usability for the Transition classes along with the EasingMgr class.
+
+
+Credits
+Robert Penner - http://robertpenner.com/easing/
