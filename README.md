@@ -1,5 +1,5 @@
 # EasingUtils
-Interpolation utility, written in Python for Panda3D.
+Tweening utility, written in Python for Panda3D engine, suitable for scale and position animation.
 
 
 ###Content
@@ -27,3 +27,5 @@ easingMgr.start_transition(a_transition)
 
 Credits
 Robert Penner - http://robertpenner.com/easing/
+
+Distributed under MIT License.
